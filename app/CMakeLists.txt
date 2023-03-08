@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13.1)
+scmake_minimum_required(VERSION 3.13.1)
 
 set(CONFIG_APPLICATION_DEFINED_SYSCALL true)
 
@@ -61,6 +61,7 @@ if ((NOT CONFIG_ZMK_SPLIT) OR CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
   target_sources(app PRIVATE src/behaviors/behavior_none.c)
   target_sources(app PRIVATE src/behaviors/behavior_sensor_rotate_key_press.c)
   target_sources(app PRIVATE src/behaviors/behavior_mouse_key_press.c)
+  target_sources(app PRIVATE src/caps_word.c)
   target_sources(app PRIVATE src/behaviors/behavior_mouse_move.c)
   target_sources(app PRIVATE src/behaviors/behavior_mouse_scroll.c)
   target_sources(app PRIVATE src/combo.c)
