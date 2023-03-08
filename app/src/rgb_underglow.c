@@ -234,7 +234,7 @@ static void zmk_rgb_underglow_effect_status() {
     //     CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX
     // );
     status_hsb.h = 260;
-    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N + (zmk_ble_active_profile_index() * 4) - 4] =
+    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N + (4 * (zmk_ble_active_profile_index() - 1))] =
         hsb_to_rgb(hsb_scale_min_max(status_hsb));
 #endif
 
