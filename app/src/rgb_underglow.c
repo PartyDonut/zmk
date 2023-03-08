@@ -227,31 +227,10 @@ static void zmk_rgb_underglow_effect_status() {
 
 // ------- Turn on the status led for selected ble -------
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE)
-    // status_hsb.h = hue_scale_to_range(
-    //     zmk_ble_active_profile_index(),
-    //     ZMK_BLE_PROFILE_COUNT,
-    //     CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MIN,
-    //     CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX
-    // );
-    status_hsb.h = 260;
-    // pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-    switch (CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N) {
-    case 0:
-        pixels[11] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-        break;
-    case 1:
-        pixels[20] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-        break;
-    case 2:
-        pixels[21] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-        break;
-    case 3:
-        pixels[30] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-        break;
-    case 4:
-        pixels[31] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
-        break;
-    }
+    status_hsb.h = hue_scale_to_range(zmk_ble_active_profile_index(), ZMK_BLE_PROFILE_COUNT,
+                                      CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MIN,
+                                      CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX);
+    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
 #endif
 
 // ------- Turn on the caps word for status led -------
