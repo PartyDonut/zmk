@@ -291,6 +291,12 @@ config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MAX
 	range 0 360
 	default 100
 
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_WARNING_LEVEL
+	int "Color when caps word is on."
+	range 0 100
+	default 15
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BATTERY
+
 config ZMK_RGB_UNDERGLOW_STATUS_LAYER
 	bool "Shows layer status on a LED"
 	default y
@@ -341,15 +347,11 @@ config ZMK_RGB_UNDERGLOW_STATUS_BLE_N
 	default 3
 	depends on ZMK_RGB_UNDERGLOW_STATUS_BLE
 
-config ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MIN
-	int "Color when ble selected is the first one."
+config ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR
+	int "Bluetooth led color"
 	range 0 360
-	default 10
-
-config ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX
-	int "Color when ble selected is the last one."
-	range 0 360
-	default 320
+	default 220
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BLE
 
 config ZMK_RGB_UNDERGLOW_STATUS_CAPS
 	bool "Shows on a LED the status of caps word."
@@ -364,6 +366,14 @@ config ZMK_RGB_UNDERGLOW_STATUS_CAPS_COLOR
 	int "Color when caps word is on."
 	range 0 360
 	default 360
+
+config ZMK_RGB_UNDERGLOW_STATUS_LOWEST_ACTIVE_LAYER
+	int "Lowest layer when to disable status leds."
+	default 0
+
+config ZMK_RGB_UNDERGLOW_STATUS_HIGHEST_ACTIVE_LAYER
+	int "Highest layer when to disable status leds"
+	default 4
 
 #ZMK_RGB_UNDERGLOW
 endif
