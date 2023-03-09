@@ -499,7 +499,6 @@ static int zmk_rgb_underglow_event_listener(const zmk_event_t *eh) {
 }
 
 ZMK_LISTENER(rgb_underglow, zmk_rgb_underglow_event_listener);
-ZMK_SUBSCRIPTION(rgb_underglow, zmk_activity_state_changed);
 #endif // IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE)
 
 int zmk_rgb_underglow_calc_effect(int direction) {
