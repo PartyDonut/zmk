@@ -189,7 +189,7 @@ static void zmk_rgb_underglow_effect_swirl() {
         pixels[i] = hsb_to_rgb(hsb_scale_min_max(hsb));
     }
 
-    state.animation_step += state.animation_speed * 2;
+    state.animation_step += state.animation_speed * 6;
     state.animation_step = state.animation_step % HUE_MAX;
 }
 
@@ -198,13 +198,18 @@ static void zmk_rgb_underglow_effect_status() {
     hsb.b = 0;
 
     // Turn off all LEDs
-    for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
-        pixels[i] = hsb_to_rgb(hsb_scale_zero_max(hsb));
-    }
+    // for (int i = 0; i < STRIP_NUM_PIXELS; i++) {
+    //     pixels[i] = hsb_to_rgb(hsb_scale_zero_max(hsb));
+    // }
 
     // and turn on specific ones.
 
 #if CONFIG_ZMK_SPLIT_ROLE_CENTRAL
+    // Disable leds when on the base layer
+    if (zmk_keymap_highest_layer_active() > 4 || zmk_keymap_highest_layer_active() <= 0) {
+        return;
+    }
+
     struct zmk_led_hsb status_hsb = state.color;
 
 // ------- Turn on the layer status leds -------
@@ -225,12 +230,36 @@ static void zmk_rgb_underglow_effect_status() {
     pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
 #endif
 
-// ------- Turn on the status led for selected ble -------
+    // ------- Turn on the status led for selected ble -------
+    if (zmk_keymap_highest_layer_active() == 3) {
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE)
-    status_hsb.h = hue_scale_to_range(zmk_ble_active_profile_index(), ZMK_BLE_PROFILE_COUNT,
-                                      CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MIN,
-                                      CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX);
-    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+        // status_hsb.h = hue_scale_to_range(zmk_ble_active_profile_index(), ZMK_BLE_PROFILE_COUNT,
+        //                                   CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MIN,
+        //                                   CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR_MAX);
+        // pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE_N] =
+        // hsb_to_rgb(hsb_scale_min_max(status_hsb));
+
+        status_hsb.h = 217;
+
+        switch (zmk_ble_active_profile_index()) {
+        case 4:
+            pixels[31] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+            break;
+        case 3:
+            pixels[30] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+            break;
+        case 2:
+            pixels[21] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+            break;
+        case 1:
+            pixels[20] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+            break;
+        case 0:
+            pixels[11] = hsb_to_rgb(hsb_scale_min_max(status_hsb));
+            break;
+        }
+    }
+
 #endif
 
 // ------- Turn on the caps word for status led -------
@@ -241,18 +270,20 @@ static void zmk_rgb_underglow_effect_status() {
 
     pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS_N] = hsb_to_rgb(hsb_scale_zero_max(caps_word_hsb));
 #endif
+
 #endif
 
-// ------- Turn on the battery status led -------
-#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY)
-    struct zmk_led_hsb battery_hsb = state.color;
-    battery_hsb.h = hue_scale_to_range(zmk_battery_state_of_charge(), 100,
-                                       CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MIN,
-                                       CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MAX);
-    battery_hsb.b = zmk_battery_state_of_charge();
+    // // ------- Turn on the battery status led for peripheral side-------
+    // #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY)
+    //     struct zmk_led_hsb battery_hsb = state.color;
+    //     battery_hsb.h = hue_scale_to_range(zmk_battery_state_of_charge(), 100,
+    //                                        CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MIN,
+    //                                        CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MAX);
+    //     battery_hsb.b = zmk_battery_state_of_charge();
 
-    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_N] = hsb_to_rgb(hsb_scale_zero_max(battery_hsb));
-#endif
+    //     pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BATTERY_N] =
+    //     hsb_to_rgb(hsb_scale_zero_max(battery_hsb));
+    // #endif
 }
 
 static void zmk_rgb_underglow_tick(struct k_work *work) {
@@ -270,9 +301,10 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
         zmk_rgb_underglow_effect_swirl();
         break;
     case UNDERGLOW_EFFECT_STATUS:
-        zmk_rgb_underglow_effect_status();
         break;
     }
+
+    zmk_rgb_underglow_effect_status();
 
     led_strip_update_rgb(led_strip, pixels, STRIP_NUM_PIXELS);
 }
