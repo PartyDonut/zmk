@@ -17,12 +17,13 @@
 #include <drivers/led_strip.h>
 #include <drivers/ext_power.h>
 
+#include <zmk/event_manager.h>
+#include <zmk/events/activity_state_changed.h>
+
 #include <zmk/rgb_underglow.h>
 
 #include <zmk/activity.h>
 #include <zmk/usb.h>
-#include <zmk/event_manager.h>
-#include <zmk/events/activity_state_changed.h>
 #include <zmk/events/usb_conn_state_changed.h>
 
 #include <zmk/keymap.h>
@@ -650,7 +651,6 @@ static int rgb_underglow_event_listener(const zmk_event_t *eh) {
     return -ENOTSUP;
 }
 
-ZMK_LISTENER(rgb_underglow, rgb_underglow_event_listener);
 #endif // IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE) ||
        // IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_AUTO_OFF_USB)
 
