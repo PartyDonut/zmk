@@ -17,8 +17,6 @@
 #include <drivers/led_strip.h>
 #include <drivers/ext_power.h>
 
-#include <zmk/events/activity_state_changed.h>
-
 #include <zmk/rgb_underglow.h>
 
 #include <zmk/activity.h>
