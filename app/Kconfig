@@ -259,6 +259,10 @@ config ZMK_RGB_UNDERGLOW_NUM_LEDS
 	range 0 100
 	default 100
 
+config ZMK_RGB_UNDERGLOW_STATUS_ENABLED
+	bool "Show status as overlay"
+	default n
+
 config ZMK_RGB_UNDERGLOW_STATUS_BATTERY
 	bool "Shows battery status on a LED"
 	default y
@@ -355,13 +359,17 @@ config ZMK_RGB_UNDERGLOW_STATUS_CAPS_COLOR
 	range 0 360
 	default 360
 
-config ZMK_RGB_UNDERGLOW_STATUS_LOWEST_ACTIVE_LAYER
-	int "Lowest layer when to disable status leds."
-	default 0
+config ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
+	int "Layer to show the status leds on"
+	default 3
 
-config ZMK_RGB_UNDERGLOW_STATUS_HIGHEST_ACTIVE_LAYER
-	int "Highest layer when to disable status leds"
-	default 4
+config ZMK_RGB_UNDERGLOW_STATUS_BLE_STATUS_LAYER
+	int "Layer to show selected bluetooth profile"
+	default ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
+
+config ZMK_RGB_UNDERGLOW_STATUS_LEFT_BATTERY_STATUS_LAYER
+	int "Layer to show central battery level"
+	default ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
 
 #ZMK_RGB_UNDERGLOW
 endif
