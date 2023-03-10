@@ -260,10 +260,12 @@ static void zmk_rgb_underglow_effect_status() {
 
 // ------- Turn on the caps word for status led -------
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS)
-    status_hsb.h = zmk_caps_word_state() * CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS_COLOR;
-    status_hsb.b = zmk_caps_word_state() * status_hsb.b;
+    if (zmk_caps_word_state() == true) {
+        status_hsb.h = zmk_caps_word_state() * CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS_COLOR;
+        status_hsb.b = zmk_caps_word_state() * status_hsb.b;
 
-    pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS_N] = hsb_to_rgb(hsb_scale_zero_max(status_hsb));
+        pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_CAPS_N] = hsb_to_rgb(hsb_scale_zero_max(status_hsb));
+    }
 #endif
 
 #endif
