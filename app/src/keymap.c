@@ -116,6 +116,8 @@ bool zmk_keymap_layer_active_with_state(uint8_t layer, zmk_keymap_layers_state_t
     return (state_to_test & (BIT(layer))) == (BIT(layer)) || layer == _zmk_keymap_layer_default;
 };
 
+uint8_t zmk_keymap_number_of_layers() { return ZMK_KEYMAP_LAYERS_LEN; }
+
 bool zmk_keymap_layer_active(uint8_t layer) {
     return zmk_keymap_layer_active_with_state(layer, _zmk_keymap_layer_state);
 };
