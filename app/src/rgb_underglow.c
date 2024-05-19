@@ -241,15 +241,15 @@ static void zmk_rgb_underglow_effect_status() {
     }
 #endif
 
-// ------- Turn on the output status led -------
-#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT)
-    if (zmk_keymap_highest_layer_active() == CONFIG_ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER) {
-        status_hsb.h = hue_scale_to_range(zmk_endpoints_selected(), ZMK_ENDPOINT_COUNT,
-                                          CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MIN,
-                                          CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MAX);
-        pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N] = hsb_to_rgb(status_hsb);
-    }
-#endif
+// // ------- Turn on the output status led -------
+// #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT)
+//     if (zmk_keymap_highest_layer_active() == CONFIG_ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER) {
+//         status_hsb.h = hue_scale_to_range(zmk_endpoints_selected(), ZMK_ENDPOINT_COUNT,
+//                                           CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MIN,
+//                                           CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MAX);
+//         pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N] = hsb_to_rgb(status_hsb);
+//     }
+// #endif
 
     // ------- Turn on the status led for selected ble -------
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE)
