@@ -55,7 +55,7 @@ enum rgb_underglow_effect {
     UNDERGLOW_EFFECT_BREATHE,
     UNDERGLOW_EFFECT_SPECTRUM,
     UNDERGLOW_EFFECT_SWIRL,
-    UNDERGLOW_EFFECT_STATUS,
+    UNDERGLOW_EFFECT_OFF,
     UNDERGLOW_EFFECT_NUMBER // Used to track number of underglow effects
 };
 
@@ -241,15 +241,15 @@ static void zmk_rgb_underglow_effect_status() {
     }
 #endif
 
-// // ------- Turn on the output status led -------
-// #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT)
-//     if (zmk_keymap_highest_layer_active() == CONFIG_ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER) {
-//         status_hsb.h = hue_scale_to_range(zmk_endpoints_selected(), ZMK_ENDPOINT_COUNT,
-//                                           CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MIN,
-//                                           CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MAX);
-//         pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N] = hsb_to_rgb(status_hsb);
-//     }
-// #endif
+// ------- Turn on the output status led -------
+#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT)
+    if (zmk_keymap_highest_layer_active() == CONFIG_ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER) {
+        status_hsb.h = hue_scale_to_range(zmk_endpoints_selected(), ZMK_TRANSPORT_BLE,
+                                          CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MIN,
+                                          CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MAX);
+        pixels[CONFIG_ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N] = hsb_to_rgb(status_hsb);
+    }
+#endif
 
     // ------- Turn on the status led for selected ble -------
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_BLE)
@@ -297,10 +297,14 @@ static void zmk_rgb_underglow_tick(struct k_work *work) {
     case UNDERGLOW_EFFECT_SWIRL:
         zmk_rgb_underglow_effect_swirl();
         break;
-    case UNDERGLOW_EFFECT_STATUS:
-        zmk_rgb_underglow_effect_status();
+    case UNDERGLOW_EFFECT_OFF:
+        zmk_rgb_underglow_effect_off();
         break;
     }
+
+#if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_ENABLED)
+    zmk_rgb_underglow_effect_status();
+#endif
 
     int err = led_strip_update_rgb(led_strip, pixels, STRIP_NUM_PIXELS);
     if (err < 0) {
