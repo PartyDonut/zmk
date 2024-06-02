@@ -28,7 +28,7 @@
 #endif
 
 #ifndef ZMK_MOUSE_DEFAULT_SCRL_VAL
-#define ZMK_MOUSE_DEFAULT_SCRL_VAL 2
+#define ZMK_MOUSE_DEFAULT_SCRL_VAL 10
 #endif
 
 /* Mouse move behavior */
