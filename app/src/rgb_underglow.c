@@ -202,6 +202,7 @@ static void zmk_rgb_underglow_effect_swirl(void) {
 
 static void zmk_rgb_underglow_effect_status() {
     struct zmk_led_hsb status_hsb = state.color;
+    status_hsb.s = 100;
     status_hsb.b = 100;
 
 // ------- Turn on the battery status led under percentage -------
@@ -232,7 +233,7 @@ static void zmk_rgb_underglow_effect_status() {
 
 // ------- Turn on the layer status leds if not on base layer -------
 #if IS_ENABLED(CONFIG_ZMK_RGB_UNDERGLOW_STATUS_LAYER)
-    if (zmk_keymap_highest_layer_active() > 0) {
+    if (zmk_keymap_highest_layer_active() >= CONFIG_ZMK_RGB_UNDERGLOW_STATUS_LAYER_MIN_LAYER) {
         status_hsb.h =
             hue_scale_to_range(zmk_keymap_highest_layer_active(), zmk_keymap_number_of_layers(),
                                CONFIG_ZMK_RGB_UNDERGLOW_STATUS_LAYER_COLOR_MIN,

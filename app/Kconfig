@@ -379,6 +379,11 @@ config ZMK_RGB_UNDERGLOW_STATUS_LAYER
 	bool "Shows layer status on a LED"
 	default y
 
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER_MIN_LAYER
+	int "Layer index to start showing the LED status"
+	default 1
+	depends on ZMK_RGB_UNDERGLOW_STATUS_LAYER
+
 config ZMK_RGB_UNDERGLOW_STATUS_LAYER_N
 	int "LED number to show the layer status"
 	range 0 ZMK_RGB_UNDERGLOW_NUM_LEDS
@@ -388,7 +393,7 @@ config ZMK_RGB_UNDERGLOW_STATUS_LAYER_N
 config ZMK_RGB_UNDERGLOW_STATUS_LAYER_COLOR_MIN
 	int "Color when lower layer is selected."
 	range 0 360
-	default 320
+	default 360
 
 config ZMK_RGB_UNDERGLOW_STATUS_LAYER_COLOR_MAX
 	int "Color when highest layer is selected."
