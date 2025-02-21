@@ -322,7 +322,7 @@ config ZMK_RGB_UNDERGLOW_SPD_START
 
 config ZMK_RGB_UNDERGLOW_EFF_START
     int "RGB underglow start effect int value related to the effect enum list"
-    range 0 3
+    range 0 4
 
 config ZMK_RGB_UNDERGLOW_ON_START
     bool "RGB underglow starts on by default"
@@ -333,6 +333,114 @@ config ZMK_RGB_UNDERGLOW_AUTO_OFF_IDLE
 config ZMK_RGB_UNDERGLOW_AUTO_OFF_USB
     bool "Turn off RGB underglow when USB is disconnected"
     depends on USB_DEVICE_STACK
+
+config ZMK_RGB_UNDERGLOW_NUM_LEDS
+	int "Numer of leds on the pcb"
+	range 0 100
+	default 100
+
+config ZMK_RGB_UNDERGLOW_STATUS_ENABLED
+	bool "Show status as overlay"
+	default n
+
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY
+	bool "Shows battery status on a LED"
+	default y
+
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_N
+	int "LED number to show the battery status"
+	range 0 ZMK_RGB_UNDERGLOW_NUM_LEDS
+	default 0
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BATTERY
+
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MIN
+	int "Color when battery is at 0%"
+	range 0 360
+	default 0
+
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_COLOR_MAX
+	int "Color when battery is at 100%"
+	range 0 360
+	default 100
+
+config ZMK_RGB_UNDERGLOW_STATUS_BATTERY_WARNING_LEVEL
+	int "Color when caps word is on."
+	range 0 100
+	default 15
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BATTERY
+
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER
+	bool "Shows layer status on a LED"
+	default y
+
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER_MIN_LAYER
+	int "Layer index to start showing the LED status"
+	default 1
+	depends on ZMK_RGB_UNDERGLOW_STATUS_LAYER
+
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER_N
+	int "LED number to show the layer status"
+	range 0 ZMK_RGB_UNDERGLOW_NUM_LEDS
+	default 1
+	depends on ZMK_RGB_UNDERGLOW_STATUS_LAYER
+
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER_COLOR_MIN
+	int "Color when lower layer is selected."
+	range 0 360
+	default 360
+
+config ZMK_RGB_UNDERGLOW_STATUS_LAYER_COLOR_MAX
+	int "Color when highest layer is selected."
+	range 0 360
+	default 0
+
+config ZMK_RGB_UNDERGLOW_STATUS_OUTPUT
+	bool "Shows output status on a LED"
+	default y
+
+config ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_N
+	int "LED number to show the output status"
+	range 0 ZMK_RGB_UNDERGLOW_NUM_LEDS
+	default 2
+	depends on ZMK_RGB_UNDERGLOW_STATUS_OUTPUT
+
+config ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MIN
+	int "Color when usb is selected."
+	range 0 360
+	default 50
+
+config ZMK_RGB_UNDERGLOW_STATUS_OUTPUT_COLOR_MAX
+	int "Color when ble is selected."
+	range 0 360
+	default 300
+
+config ZMK_RGB_UNDERGLOW_STATUS_BLE
+	bool "Shows on a LED the status of the selected ble device."
+	default y
+
+config ZMK_RGB_UNDERGLOW_STATUS_BLE_N
+	int "LED number to show the selected ble"
+	range 0 ZMK_RGB_UNDERGLOW_NUM_LEDS
+	default 3
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BLE
+
+config ZMK_RGB_UNDERGLOW_STATUS_BLE_COLOR
+	int "Bluetooth led color"
+	range 0 360
+	default 220
+	depends on ZMK_RGB_UNDERGLOW_STATUS_BLE
+
+config ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
+	int "Layer to show the status leds on"
+	default 3
+
+config ZMK_RGB_UNDERGLOW_STATUS_BLE_STATUS_LAYER
+	int "Layer to show selected bluetooth profile"
+	default ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
+
+config ZMK_RGB_UNDERGLOW_STATUS_LEFT_BATTERY_STATUS_LAYER
+	int "Layer to show central battery level"
+	default ZMK_RGB_UNDERGLOW_STATUS_INFO_LAYER
 
 endif # ZMK_RGB_UNDERGLOW
 
