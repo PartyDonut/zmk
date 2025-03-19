@@ -10,6 +10,7 @@ import Metadata from "@site/src/data/hardware-metadata.json";
 export const SplitTabs = (props) => (
     <Tabs
     groupId="keyboard-type"
+    queryString
     defaultValue="unibody"
     values={[
       { label: "Unibody Keyboard", value: "unibody" },
@@ -25,6 +26,7 @@ export const SplitTabs = (props) => (
 export const SplitInvisTabs = (props) => (
     <Tabs
     groupId="keyboard-type"
+    queryString
     defaultValue="unibody"
     className="secrettabs"
     values={[
@@ -450,7 +452,7 @@ Also see the [matrix transform section](../../config/layout.md#matrix-transform)
 Your keyboard will need to have a physical layout defined.
 Physical layouts organize the matrix transform, kscan and optionally the physical description of key positions in a single entity.
 
-<Tabs groupId="physical-layouts" defaultValue="basic">
+<Tabs groupId="physical-layouts" queryString defaultValue="basic">
   <TabItem value="basic" label="Basic">
 
 If you are not planning to add support for [ZMK Studio](../../features/studio.md), you can add a `zmk,physical-layout`-compatible node for each physical layout your keyboard supports:
@@ -510,6 +512,30 @@ If all of your physical layouts use the same `kscan` node under the hood, you ca
 ```
 
 :::
+
+### Wired Split
+
+<SplitTabs>
+<TabItem value="unibody">This is only required for wired split keyboards.</TabItem>
+<TabItem value="split">
+
+If testing the experimental [wired split](../../features/split-keyboards.md) support, you should assign a [predefined](./pinctrl.mdx#predefined-nodes) or [pinctrl configured](./pinctrl.mdx) UART to the `device` property of a new node with `compatible` value of `"zmk,wired-split"`:
+
+```dts
+/ {
+    wired_split {
+        compatible = "zmk,wired-split";
+        device = <&pro_micro_serial>;
+    };
+};
+```
+
+See the [wired split](../../config/split.md#wired-split) configuration for more details.
+
+For wireless split keyboards, this step should be skipped, especially since the UART pins on your controller might already be in use for other functionality.
+
+</TabItem>
+</SplitTabs>
 
 ## Default Keymap
 
