@@ -93,6 +93,19 @@ static inline int z_impl_ext_power_get(const struct device *dev) {
     return api->get(dev);
 }
 
+/**
+ * @brief Switch a zmk,ext-power-generic output without changing or persisting its status.
+ *
+ * Meant for short-lived power saving (e.g. cutting LED power while idle) where the
+ * user-visible ext power setting must not change and flash must not be written.
+ *
+ * @param dev Pointer to the zmk,ext-power-generic device.
+ * @param on Whether to drive the control pins active.
+ * @retval 0 If successful.
+ * @retval Negative errno code if failure.
+ */
+int ext_power_generic_set_transient(const struct device *dev, bool on);
+
 #ifdef __cplusplus
 }
 #endif

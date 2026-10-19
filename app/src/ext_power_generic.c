@@ -86,6 +86,20 @@ static int ext_power_generic_disable(const struct device *dev) {
     return ext_power_save_state();
 }
 
+int ext_power_generic_set_transient(const struct device *dev, bool on) {
+    const struct ext_power_generic_config *config = dev->config;
+
+    // Only drive the pins; status and persisted settings are left untouched.
+    for (int i = 0; i < config->control_gpios_count; i++) {
+        const struct gpio_dt_spec *gpio = &config->control[i];
+        if (gpio_pin_set_dt(gpio, on ? 1 : 0)) {
+            LOG_WRN("Failed to set ext-power control pin %d", i);
+            return -EIO;
+        }
+    }
+    return 0;
+}
+
 static int ext_power_generic_get(const struct device *dev) {
     struct ext_power_generic_data *data = dev->data;
     return data->status;
